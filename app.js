@@ -6,6 +6,7 @@ const expressLayout = require('express-ejs-layouts');
 
 
 //routes import
+const mainRoute = require('./server/routes/index'); 
 
 
 
@@ -40,9 +41,7 @@ app.set('view engine' , 'ejs');
 
 
 //routes 
-app.get('/' ,(req , res)=>{
-    res.render('index.ejs'); 
-})
+app.use("/" , mainRoute); 
 
 
 
