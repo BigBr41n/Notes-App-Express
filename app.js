@@ -47,6 +47,10 @@ app.use("/" , mainRoute);
 
 
 
+/* 
+    handl 404
+*/
+
 //handling unexpected routes 
 app.use((req , res , next)=>{
     try {
@@ -62,7 +66,7 @@ app.use((req , res , next)=>{
 
 app.use((err , req , res , next)=>{
     try {
-        res.status(err.status).json({message : err.message}); 
+        res.status(err.status).render('404.ejs'); 
     } catch (error) {
         console.log(error); 
         res.status(500).json({error : "Internal server error"}); 

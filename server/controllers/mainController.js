@@ -8,7 +8,7 @@ exports.homePage = (req , res)=>{
         description : "Free NodeJs Notes App"
     }
     try {
-        res.render('index.ejs' , locals);
+        res.render('index.ejs' , {locals , layout : '../views/layouts/front-page'});
     } catch (error) {
         console.log(error); 
         res.status(500).json({error : "internal server error"}); 
