@@ -3,7 +3,9 @@ const express = require('express');
 const expressLayout = require('express-ejs-layouts');
 
 
-
+//import database config
+const { db_connect } = require('./server/config/db_config'); 
+db_connect(); 
 
 //routes import
 const mainRoute = require('./server/routes/index');
