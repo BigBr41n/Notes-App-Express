@@ -41,7 +41,7 @@ app.set('view engine' , 'ejs');
 
 //routes 
 app.get('/' ,(req , res)=>{
-    res.send("HOME"); 
+    res.render('index.ejs'); 
 })
 
 
