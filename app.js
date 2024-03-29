@@ -6,7 +6,8 @@ const expressLayout = require('express-ejs-layouts');
 
 
 //routes import
-const mainRoute = require('./server/routes/index'); 
+const mainRoute = require('./server/routes/index');
+const dashboardRoute = require('./server/routes/dashboard');  
 
 
 
@@ -42,6 +43,7 @@ app.set('view engine' , 'ejs');
 
 //routes 
 app.use("/" , mainRoute); 
+app.use("/" , dashboardRoute); 
 
 
 
