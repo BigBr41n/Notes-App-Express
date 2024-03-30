@@ -1,5 +1,6 @@
 const Note = require("../models/Notes");
 const mongoose = require("mongoose");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 /**
  * GET /
@@ -7,16 +8,30 @@ const mongoose = require("mongoose");
  */
 
 
+
 //DEBUG
-/* exports.dashboard = async (req, res) => {
-  res.render('dashboard.ejs')
+/* exports.dashboard = async (req, res)=>{
+  const locals = {
+
+  };
+  const notes = {};
+  res.render('dashboard/index', {
+    userName: "rahim",
+    locals,
+    notes,
+    layout: "../views/layouts/dashboard",
+    current: 10,
+    pages: Math.ceil(10 / 40)
+  });
 } */
 
+
+
 exports.dashboard = async (req, res) => {
-    if (!req.user || !req.user.id) {
+/*     if (!req.user || !req.user.id) {
       // Redirect the user to login or handle the scenario when user is not authenticated
-      return res.redirect('/dashboard');
-    }
+      return res.redirect('/');
+    } */
   
     let perPage = 12;
     let page = req.query.page || 1;
@@ -29,7 +44,7 @@ exports.dashboard = async (req, res) => {
     try {
       const notes = await Note.aggregate([
         { $sort: { updatedAt: -1 } },
-        { $match: { user: mongoose.Types.ObjectId(req.user.id) } },
+        { $match: { user: new ObjectId("660767c4c01b49daec992e8a") } },
         {
           $project: {
             title: { $substr: ["$title", 0, 30] },
@@ -41,10 +56,10 @@ exports.dashboard = async (req, res) => {
       .limit(perPage)
       .exec();
   
-      const count = await Note.count();
+      const count = 10;
   
       res.render('dashboard/index', {
-        userName: req.user.firstName,
+        userName: "req.user.firstName",
         locals,
         notes,
         layout: "../views/layouts/dashboard",
@@ -148,7 +163,7 @@ exports.dashboardAddNote = async (req, res) => {
  */
 exports.dashboardAddNoteSubmit = async (req, res) => {
   try {
-    req.body.user = req.user.id;
+    req.body.user = "660767c4c01b49daec992e8a";
     await Note.create(req.body);
     res.redirect("/dashboard");
   } catch (error) {
@@ -192,7 +207,7 @@ exports.dashboardSearchSubmit = async (req, res) => {
         { title: { $regex: new RegExp(searchNoSpecialChars, "i") } },
         { body: { $regex: new RegExp(searchNoSpecialChars, "i") } },
       ],
-    }).where({ user: req.user.id });
+    }).where({ user: "660767c4c01b49daec992e8a" });
 
     res.render("dashboard/search", {
       searchResults,

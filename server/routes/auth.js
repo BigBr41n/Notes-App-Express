@@ -8,7 +8,8 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK
+    callbackURL: process.env.GOOGLE_CALLBACK , 
+    scope: ['profile', 'email']
 }, async function (accessToken, refreshToken, profile, done) {
     try {
         const displayName = `${profile.name.givenName} ${profile.name.familyName}`;
@@ -32,12 +33,13 @@ passport.use(new GoogleStrategy({
     }
 }));
 
+
 router.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 router.get('/google/callback', passport.authenticate('google', {
     failureRedirect: '/login-failure',
     successRedirect: '/dashboard',
-}));
+})); 
 
 router.get('/login-failure', (req, res) => {
     res.send('Something went wrong...');
@@ -50,7 +52,7 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-passport.serializeUser(function (user, done) {
+/* passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 
@@ -59,5 +61,21 @@ passport.deserializeUser(function (id, done) {
         done(err, user);
     });
 });
+ */
+
+passport.serializeUser(function(user, done) {
+    process.nextTick(function() {
+        done(null , user.id)
+    });
+  });
+  
+  passport.deserializeUser(function(user, done) {
+    User.findById(id, function (err, user) {
+        done(err, user);
+    });
+  });
+ 
+
+
 
 module.exports = router;

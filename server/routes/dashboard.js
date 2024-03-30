@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { isLoggedIn } = require('../middleware/checkAuth');
+//const { isLoggedIn } = require('../middleware/checkAuth');
 const dashboardController = require('../controllers/dashboardController');
 
 /**
@@ -8,13 +8,13 @@ const dashboardController = require('../controllers/dashboardController');
 */
 
 router.get('/dashboard', dashboardController.dashboard);
-router.get('/dashboard/item/:id', isLoggedIn, dashboardController.dashboardViewNote);
-router.put('/dashboard/item/:id', isLoggedIn, dashboardController.dashboardUpdateNote);
-router.delete('/dashboard/item-delete/:id', isLoggedIn, dashboardController.dashboardDeleteNote);
-router.get('/dashboard/add', isLoggedIn, dashboardController.dashboardAddNote);
-router.post('/dashboard/add', isLoggedIn, dashboardController.dashboardAddNoteSubmit);
-router.get('/dashboard/search', isLoggedIn, dashboardController.dashboardSearch);
-router.post('/dashboard/search', isLoggedIn, dashboardController.dashboardSearchSubmit);
+router.get('/dashboard/item/:id', dashboardController.dashboardViewNote);
+router.put('/dashboard/item/:id', dashboardController.dashboardUpdateNote);
+router.delete('/dashboard/item-delete/:id', dashboardController.dashboardDeleteNote);
+router.get('/dashboard/add', dashboardController.dashboardAddNote);
+router.post('/dashboard/add', dashboardController.dashboardAddNoteSubmit);
+router.get('/dashboard/search', dashboardController.dashboardSearch);
+router.post('/dashboard/search', dashboardController.dashboardSearchSubmit);
 
 
 module.exports = router;
