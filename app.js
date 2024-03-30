@@ -36,7 +36,7 @@ const app = express() ;
 
 //passport middleware (auth)
 app.use(passport.initialize());
-app.use(passport.session()) ;
+//app.use(passport.session()) ;
 //midlleware 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
