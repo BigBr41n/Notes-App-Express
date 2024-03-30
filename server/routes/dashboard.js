@@ -1,5 +1,6 @@
 const router = require('express').Router(); 
-const dashBoardController = require('../controllers/dashboardController'); 
+const dashBoardController = require('../controllers/dashboardController');
+const {isLoggedIn} = require('../middleware/checkAuth'); 
 
 
 
@@ -7,7 +8,7 @@ const dashBoardController = require('../controllers/dashboardController');
     dashBoard ROUTES
 */
 
-router.get('/dashboard' , dashBoardController.dashboard );
+router.get('/dashboard' , isLoggedIn , dashBoardController.dashboard );
 
 
 
