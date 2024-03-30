@@ -1,8 +1,8 @@
 exports.isLoggedIn = (req , res , next)=>{
-    if(req.user){
+    if(req.isAuthenticated()){
         next(); 
     }
     else{
-        return res.status(401).send("please Login"); 
+        return res.status(401).redirect('/'); 
     }
 }

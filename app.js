@@ -36,10 +36,10 @@ const app = express() ;
 
 //passport middleware (auth)
 app.use(passport.initialize());
-//app.use(passport.session()) ;
+
 //midlleware 
 app.use(express.urlencoded({ extended: true })); 
-app.use(express.json());
+app.use(express.json()); 
 
 //session 
 app.use(session({
@@ -49,7 +49,8 @@ app.use(session({
     store : MongoStroe.create({
         mongoUrl : process.env.DB_URI
     })
-}))
+})); 
+
 
 
 
