@@ -1,6 +1,7 @@
 //imports
 const express = require('express'); 
 const expressLayout = require('express-ejs-layouts');
+const methodOverride = require('method-override'); 
 const session = require('express-session'); 
 const passport = require('passport'); 
 const MongoStroe = require('connect-mongo'); 
@@ -16,6 +17,8 @@ const app = express() ;
 //midlleware 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json()); 
+app.use(methodOverride('_method'));
+
 
 
 //import database config
