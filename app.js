@@ -29,7 +29,7 @@ db_connect();
 
 
 
-/* app.use(session({
+app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
@@ -37,7 +37,7 @@ db_connect();
         mongoUrl : process.env.DB_URI
     }),
     cookie: { secure: true }
-  })); */
+}));
 
 
 
@@ -49,7 +49,7 @@ app.use(passport.session()); */
 
 
 //routes import
-//const auth = require('./server/routes/auth')
+const auth = require('./server/routes/auth')
 const mainRoute = require('./server/routes/index');
 const dashboardRoute = require('./server/routes/dashboard');  
 
@@ -73,7 +73,7 @@ app.set('view engine' , 'ejs');
 //routes 
 app.use("/" , mainRoute); 
 app.use("/" , dashboardRoute); 
-//app.use('/' , auth); 
+app.use('/' , auth); 
 
 
 

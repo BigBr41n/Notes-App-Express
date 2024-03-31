@@ -5,6 +5,8 @@ const ObjectId = require("mongoose").Types.ObjectId;
 /**
  * GET /
  * Dashboard
+ * 
+ * 
  */
 
 
@@ -28,10 +30,10 @@ const ObjectId = require("mongoose").Types.ObjectId;
 
 
 exports.dashboard = async (req, res) => {
-/*     if (!req.user || !req.user.id) {
+    if (!req.user || !req.user.id) {
       // Redirect the user to login or handle the scenario when user is not authenticated
       return res.redirect('/');
-    } */
+    }
   
     let perPage = 12;
     let page = req.query.page || 1;
@@ -44,7 +46,7 @@ exports.dashboard = async (req, res) => {
     try {
       const notes = await Note.aggregate([
         { $sort: { updatedAt: -1 } },
-        { $match: { user: new ObjectId("660767c4c01b49daec992e8a") } },
+        { $match: { user: new ObjectId(req.user.id) } },
         {
           $project: {
             title: { $substr: ["$title", 0, 30] },
@@ -56,10 +58,10 @@ exports.dashboard = async (req, res) => {
       .limit(perPage)
       .exec();
   
-      const count = 10;
+      const count = Note.countDocuments();
   
       res.render('dashboard/index', {
-        userName: "req.user.firstName",
+        userName: req.user.firstName,
         locals,
         notes,
         layout: "../views/layouts/dashboard",
@@ -112,7 +114,7 @@ exports.dashboardUpdateNote = async (req, res) => {
     await Note.findOneAndUpdate(
       { _id: req.params.id },
       { title: req.body.title, body: req.body.body, updatedAt: Date.now() }
-    ).where({ user: req.user.id });
+    ).where({ user: res.user.id });
     res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
@@ -163,7 +165,7 @@ exports.dashboardAddNote = async (req, res) => {
  */
 exports.dashboardAddNoteSubmit = async (req, res) => {
   try {
-    req.body.user = "660767c4c01b49daec992e8a";
+    req.body.user = res.user.id ;
     await Note.create(req.body);
     res.redirect("/dashboard");
   } catch (error) {
@@ -207,7 +209,7 @@ exports.dashboardSearchSubmit = async (req, res) => {
         { title: { $regex: new RegExp(searchNoSpecialChars, "i") } },
         { body: { $regex: new RegExp(searchNoSpecialChars, "i") } },
       ],
-    }).where({ user: "660767c4c01b49daec992e8a" });
+    }).where({ user: req.user.id });
 
     res.render("dashboard/search", {
       searchResults,
